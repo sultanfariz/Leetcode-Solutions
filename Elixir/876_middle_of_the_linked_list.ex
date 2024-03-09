@@ -9,20 +9,15 @@
 # end
 
 defmodule Solution do
-  @spec node_length(head :: ListNode.t | nil, len :: Integer) :: Integer
-  def node_length(head, len) when head.next == nil, do: div(len+1,2)
-  def node_length(head, len), do: node_length(head.next, len+1)
-
-  @spec traverse_node(head :: ListNode.t | nil, len :: Integer, mid :: Integer) :: Integer
-  def traverse_node(head, len, mid) when head.next === nil, do: head
-  def traverse_node(head, len, len), do: head
-  def traverse_node(head, len, mid) do
-    traverse_node(head.next, len+1, mid)
+  @spec traverse_node(mid :: ListNode.t | nil, len :: ListNode.t | nil) :: Integer
+  def traverse_node(mid, len) when len.next.next === nil, do: mid.next
+  def traverse_node(mid, len) when len.next === nil, do: mid
+  def traverse_node(mid, len) do
+    traverse_node(mid.next, len.next.next)
   end
 
   @spec middle_node(head :: ListNode.t | nil) :: ListNode.t | nil
   def middle_node(head) do
-    mid = node_length(head, 0)
-    traverse_node(head, 0, mid)
+    traverse_node(head, head)
   end
 end
