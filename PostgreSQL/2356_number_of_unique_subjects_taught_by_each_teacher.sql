@@ -1,10 +1,5 @@
 -- Write your PostgreSQL query statement below
 
-WITH filtered AS (
-  SELECT DISTINCT teacher_id, subject_id
-  FROM teacher
-)
-
-SELECT DISTINCT teacher_id, COUNT(subject_id) AS cnt
-FROM filtered
+SELECT DISTINCT teacher_id, COUNT(DISTINCT subject_id) AS cnt
+FROM teacher
 GROUP BY teacher_id
