@@ -9,18 +9,12 @@
 # end
 
 defmodule Solution do
-  @spec merge_nodes(head :: ListNode.t | nil) :: ListNode.t | nil
-  def merge_nodes(head) when head == nil or head.next == nil, do: nil
-  def merge_nodes(%{val: 0, next: next}) do
-    %ListNode{val: sum_nodes(next), next: merge_nodes(next)} 
-  end
-  def merge_nodes(head) do
-    merge_nodes(head.next)
-  end
+  @spec merge_nodes(head :: ListNode.t | nil, res :: ListNode.t) :: ListNode.t | nil
+  defp merge_nodes(nil, _), do: nil
+  defp merge_nodes(head, 0) when head.val == 0, do: merge_nodes(head.next, 0)
+  defp merge_nodes(head, res) when head.val == 0, do: %ListNode{val: res, next: merge_nodes(head.next, 0)}
+  defp merge_nodes(head, res), do: merge_nodes(head.next, res + head.val)
 
-  @spec sum_nodes(head :: ListNode.t | nil) :: integer
-  def sum_nodes(head) when head == nil or head.val == 0, do: 0
-  def sum_nodes(head) do
-    head.val + sum_nodes(head.next)
-  end
+  @spec merge_nodes(head :: ListNode.t | nil) :: ListNode.t | nil
+  def merge_nodes(head), do: merge_nodes(head, 0)
 end
