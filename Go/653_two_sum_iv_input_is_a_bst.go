@@ -6,32 +6,25 @@
  *     Right *TreeNode
  * }
  */
+
+var (
+  nodeMap = make(map[int]bool)
+)
+
 func findTarget(root *TreeNode, k int) bool {
-  arr := traverseTree(root)
-  left, right := 0, len(arr)-1
-  for {
-    if left >= right {
-      break
-    }
-    sum := arr[left] + arr[right]
-    if sum == k { 
-      return true 
-    } else if sum > k { 
-      right-- 
-    } else { 
-      left++ 
-    }
-  }
-  
-  return false
+  res := traverseTree(root, k)
+  // clean global variable
+  nodeMap = make(map[int]bool)
+  return res
 }
 
-func traverseTree(root *TreeNode) (res []int) {
+func traverseTree(root *TreeNode, k int) bool {
   if root == nil {
-    return
+    return false
   }
-
-  res = append(res, traverseTree(root.Left)...)
-  res = append(res, root.Val)
-  return append(res, traverseTree(root.Right)...)
+  if nodeMap[k-root.Val] {
+    return true
+  }
+  nodeMap[root.Val] = true
+  return traverseTree(root.Left, k) || traverseTree(root.Right, k)
 }
