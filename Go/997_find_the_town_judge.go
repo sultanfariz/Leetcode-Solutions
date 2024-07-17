@@ -3,13 +3,13 @@ func findJudge(n int, trust [][]int) int {
     return 1
   }
 
-  trustMap := make(map[int]int)
+  trusts := make([]int, n+1)
   for _, v := range trust {
-    trustMap[v[0]]--
-    trustMap[v[1]]++
+    trusts[v[0]]--
+    trusts[v[1]]++
   }
 
-  for k, v := range trustMap {
+  for k, v := range trusts {
     if v == n-1 {
       return k
     }
