@@ -1,5 +1,5 @@
 var (
-  fibMap = make(map[int]int)
+  fibMap = [31]int{}
 )
 
 func fib(n int) int {
