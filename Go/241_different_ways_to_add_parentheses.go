@@ -1,3 +1,7 @@
+var (
+  memo = map[string][]int{}
+)
+
 func diffWaysToCompute(expression string) []int {
   res := []int{}
 
@@ -6,11 +10,17 @@ func diffWaysToCompute(expression string) []int {
     return []int{num}
   }
 
+  v, ok := memo[expression]
+  if ok {
+    return v
+  }
+
   for i, char := range expression {
     strChar := string(char)
     if strChar != "+" && strChar != "-" && strChar != "*" {
       continue
     }
+
 
     left := diffWaysToCompute(expression[:i])
     right := diffWaysToCompute(expression[i+1:])
@@ -28,6 +38,8 @@ func diffWaysToCompute(expression string) []int {
       }
     }
   }
+
+  memo[expression] = res
 
   return res
 }
